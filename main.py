@@ -5,44 +5,47 @@ from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from datetime import datetime
-
+from sqlalchemy import BigInteger
 from db import DATABASE_URL, table
+# import asyncpg_simpleorm
+# from asyncpg_simpleorm import async_model
+
 
 database = databases.Database(DATABASE_URL)
 
 metadata = sqlalchemy.MetaData()
-
+# TODO asyncpg.exceptions.DataError: invalid input for query argument $1: 3013468463 (value out of int32 range)
 leads = sqlalchemy.Table(
     table,
     metadata,
-    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True, unique=True),
-    sqlalchemy.Column("tweet_text", sqlalchemy.String, nullable=False),
-    sqlalchemy.Column("author_id", sqlalchemy.Integer, nullable=False),
-    sqlalchemy.Column("lang", sqlalchemy.String, nullable=False),
+    sqlalchemy.Column("id", sqlalchemy.BigInteger, primary_key=True, unique=True),
+    sqlalchemy.Column("tweet_text", sqlalchemy.String),
+    sqlalchemy.Column("author_id", sqlalchemy.BigInteger),
+    sqlalchemy.Column("lang", sqlalchemy.String),
     sqlalchemy.Column("created_at", sqlalchemy.DateTime, nullable=False),
-    sqlalchemy.Column("matching_rules", sqlalchemy.String, nullable=False),
+    sqlalchemy.Column("matching_rules", sqlalchemy.String, nullable=True, ),
     sqlalchemy.Column("spark_timestamp", sqlalchemy.DateTime, nullable=False),
     sqlalchemy.Column("raw_json", sqlalchemy.String, nullable=False),
-    sqlalchemy.Column("source", sqlalchemy.String, nullable=False),
-    sqlalchemy.Column("tweet_count", sqlalchemy.String, nullable=False),
-    sqlalchemy.Column("followers_count", sqlalchemy.String, nullable=False),
-    sqlalchemy.Column("verified", sqlalchemy.String, nullable=False),
-    sqlalchemy.Column("author_name", sqlalchemy.String, nullable=False),
-    sqlalchemy.Column("author_username", sqlalchemy.String, nullable=False),
-    sqlalchemy.Column("geo_type", sqlalchemy.String, nullable=False),
-    sqlalchemy.Column("geo_name", sqlalchemy.String, nullable=False),
-    sqlalchemy.Column("geo_country", sqlalchemy.String, nullable=False),
-    sqlalchemy.Column("geo_full_name", sqlalchemy.String, nullable=False),
-    sqlalchemy.Column("geo_place_type", sqlalchemy.String, nullable=False),
-    sqlalchemy.Column("geo_country_code", sqlalchemy.String, nullable=False),
-    sqlalchemy.Column("geo_bbox", sqlalchemy.String, nullable=False),
-    sqlalchemy.Column("like_count", sqlalchemy.Integer, nullable=False),
-    sqlalchemy.Column("quote_count", sqlalchemy.Integer, nullable=False),
-    sqlalchemy.Column("reply_count", sqlalchemy.Integer, nullable=False),
-    sqlalchemy.Column("retweet_count", sqlalchemy.Integer, nullable=False),
-    sqlalchemy.Column("tweet_place_id", sqlalchemy.String, nullable=False),
-    sqlalchemy.Column("coordinates_type", sqlalchemy.String, nullable=False),
-    sqlalchemy.Column("coordinates", sqlalchemy.String, nullable=False),
+    sqlalchemy.Column("source", sqlalchemy.String),
+    sqlalchemy.Column("tweet_count", sqlalchemy.String),
+    sqlalchemy.Column("followers_count", sqlalchemy.String),
+    sqlalchemy.Column("verified", sqlalchemy.String),
+    sqlalchemy.Column("author_name", sqlalchemy.String),
+    sqlalchemy.Column("author_username", sqlalchemy.String),
+    sqlalchemy.Column("geo_type", sqlalchemy.String),
+    sqlalchemy.Column("geo_name", sqlalchemy.String),
+    sqlalchemy.Column("geo_country", sqlalchemy.String),
+    sqlalchemy.Column("geo_full_name", sqlalchemy.String),
+    sqlalchemy.Column("geo_place_type", sqlalchemy.String),
+    sqlalchemy.Column("geo_country_code", sqlalchemy.String),
+    sqlalchemy.Column("geo_bbox", sqlalchemy.String),
+    sqlalchemy.Column("like_count", sqlalchemy.Integer),
+    sqlalchemy.Column("quote_count", sqlalchemy.Integer),
+    sqlalchemy.Column("reply_count", sqlalchemy.Integer),
+    sqlalchemy.Column("retweet_count", sqlalchemy.Integer),
+    sqlalchemy.Column("tweet_place_id", sqlalchemy.String),
+    sqlalchemy.Column("coordinates_type", sqlalchemy.String),
+    sqlalchemy.Column("coordinates", sqlalchemy.String),
 )
 
 engine = sqlalchemy.create_engine(
@@ -91,25 +94,25 @@ class Lead(BaseModel):
     spark_timestamp: datetime
     raw_json: str
     source: str
-    tweet_count: str
-    followers_count: str
-    verified: str
-    author_name: str
-    author_username: str
-    geo_type: str
-    geo_name: str
-    geo_country: str
-    geo_full_name: str
-    geo_place_type: str
-    geo_country_code: str
-    geo_bbox: str
-    like_count: int
-    quote_count: int
-    reply_count: int
-    retweet_count: int
-    tweet_place_id: str
-    coordinates_type: str
-    coordinates: str
+    # tweet_count: str
+    # followers_count: str
+    # verified: str
+    # author_name: str
+    # author_username: str
+    # geo_type: str
+    # geo_name: str
+    # geo_country: str
+    # geo_full_name: str
+    # geo_place_type: str
+    # geo_country_code: str
+    # geo_bbox: str
+    # like_count: int
+    # quote_count: int
+    # reply_count: int
+    # retweet_count: int
+    # tweet_place_id: str
+    # coordinates_type: str
+    # coordinates: str
 
 
 app = FastAPI(title="REST API using FastAPI PostgreSQL Async EndPoints")

@@ -14,5 +14,6 @@ db_password = urllib.parse.quote_plus(str(os.environ.get('PG_PASSWORD_EXTRACT'))
 ssl_mode = urllib.parse.quote_plus(str(os.environ.get('ssl_mode','prefer')))
 table = os.environ.get('PG_TABLE')
 
+API_KEY=os.environ.get('API_KEY')
 
 DATABASE_URL = 'postgresql://{}:{}@{}:{}/{}?sslmode={}'.format(db_username,db_password, host_server, db_server_port, database_name, ssl_mode)
